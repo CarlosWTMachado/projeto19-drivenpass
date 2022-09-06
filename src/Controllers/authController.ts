@@ -7,3 +7,10 @@ export async function SignUpController(req: Request, res: Response){
 
 	return res.sendStatus(200);
 }
+
+export async function SignInController(req: Request, res: Response){
+	const {email, password} = req.body;
+	await authService.SignInService(email, password);
+
+	return res.sendStatus(200);
+}
