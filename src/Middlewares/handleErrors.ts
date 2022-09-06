@@ -10,4 +10,3 @@ export default function errorHandlingMiddleware(error: Error, req: Request, res:
 
 	return res.status(500).send('Internal error');
 }
-
