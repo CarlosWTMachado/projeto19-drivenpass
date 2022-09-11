@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import {JWTSECRET} from '../environmentVariables';
 
-export default function VerifyToken(authorization: string){
+export default function VerifyToken(token: string){
 	try{
-		const token = authorization.replace('Bearer ', '');
 		const dados = jwt.verify(token, JWTSECRET());
 		return dados;
 	}catch (error){
