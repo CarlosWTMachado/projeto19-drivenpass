@@ -9,7 +9,7 @@ datasource db {
 
 model users {
   id          Int           @id(map: "users_pk") @default(autoincrement())
-  email       String
+  email       String		@unique
   password    String
   createdAt   DateTime      @default(now()) @db.Timestamp(6)
   cards       cards[]

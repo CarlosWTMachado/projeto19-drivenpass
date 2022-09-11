@@ -1,18 +1,26 @@
-import * as genericRepository from '../Repositories/genericRepository';
+import * as authRepository from '../Repositories/authRepository';
 import EncryptPassword from '../Utils/encryptPassword';
 import VerifyPassword from '../Utils/validatePassword';
 import GenerateToken from '../Utils/generateToken';
 
 export async function SignUpService(email: string, password: string){
 	const encryptedPassword: string = EncryptPassword(password);
-	console.log(encryptedPassword);
+	await authRepository.create({email, password: encryptedPassword});
 	return;
 }
 
 export async function SignInService(email: string, password: string){
-	// const isValid: boolean = VerifyPassword(password, encryptedPassword);
-	// console.log(isValid);
-	const token = GenerateToken({email, password});
-	console.log(token);
-	return;
+	const user = await authRepository.findByEmail(email);
+	if(user === null) throw {
+		type: 'NotFound',
+		message: 'email and/or password invalid'
+	}
+	const isValid: boolean = VerifyPassword(password, user.password);
+	if(!isValid) throw {
+		type: 'NotFound',
+		message: 'email and/or password invalid'
+	}
+
+	const token = GenerateToken(user);
+	return token;
 }
