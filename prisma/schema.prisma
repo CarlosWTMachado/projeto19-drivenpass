@@ -50,6 +50,7 @@ model credentials {
   users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_fk0")
 
   @@unique([userId, title], name: "userId_title")
+  @@unique([id, userId], name: "id_userId")
 }
 
 model notes {
