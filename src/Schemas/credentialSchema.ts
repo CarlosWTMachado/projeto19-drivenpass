@@ -1,4 +1,4 @@
-import joi, { required } from 'joi';
+import joi from 'joi';
 
 const credentialSchema = joi.object({
 	'title': joi.string().required(),
