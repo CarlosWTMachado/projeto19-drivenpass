@@ -9,6 +9,6 @@ export async function create(user: CreateUser) {
 
 export async function findByEmail(email: string) {
 	return await prisma.users.findUnique({
-		where: { email },
+		where: {email}
 	});
-}
+} 

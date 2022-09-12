@@ -1,8 +1,22 @@
 import { Request, Response } from 'express';
-import * as genericService from '../Services/genericService';
+import * as credentialService from '../Services/credentialService';
 
 export async function CreateCredentialController(req: Request, res: Response){
-	const tokenData = res.locals.tokenData;
-	console.log(tokenData)
+	const {id} = res.locals.tokenData;
+	const {title, url, username, password} = req.body;
+	await credentialService.CreateCredential(Number(id), title, url, username, password);
 	return res.sendStatus(200);
+}
+
+export async function GetCredentialController(req: Request, res: Response){
+	const {id} = res.locals.tokenData;
+	const credentials = await credentialService.GetAllCredentials(Number(id));
+	return res.status(200).send(credentials);
+}
+
+export async function GetCredentialByIdController(req: Request, res: Response){
+	const {id: userId} = res.locals.tokenData;
+	const {id} = req.params;
+	const credentials = await credentialService.GetCredentialById(Number(id), Number(userId));
+	return res.status(200).send(credentials);
 }

@@ -10,7 +10,8 @@ export default function schemaValidateToken (req: Request, res: Response, next: 
 		type: 'Unauthorized',
 		message: 'Invalid token'
 	};
-	const data = VerifyToken(authorization?.toString());
+	const token = authorization ? authorization.replace('Bearer ', '') : '';
+	const data = VerifyToken(token);
 	res.locals.tokenData = data;
 	next();
 }
