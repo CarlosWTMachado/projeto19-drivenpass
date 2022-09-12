@@ -1,73 +1,76 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model users {
-  id          Int           @id(map: "users_pk") @default(autoincrement())
-  email       String		@unique
-  password    String
-  createdAt   DateTime      @default(now()) @db.Timestamp(6)
-  cards       cards[]
-  credentials credentials[]
-  notes       notes[]
-  wifis       wifis[]
+    id          Int           @id(map: "users_pk") @default(autoincrement())
+    email       String        @unique
+    password    String
+    createdAt   DateTime      @default(now()) @db.Timestamp(6)
+    cards       cards[]
+    credentials credentials[]
+    notes       notes[]
+    wifis       wifis[]
 }
 
 model cards {
-  id             Int      @id(map: "cards_pk") @default(autoincrement())
-  userId         Int
-  title          String
-  number         String
-  name           String
-  cvc            Int
-  expirationDate DateTime @db.Date
-  password       String
-  isVirtual      Boolean  @default(false)
-  type           Cardtype @default(creditdebit)
-  createdAt      DateTime @default(now()) @db.Timestamp(6)
-  users          users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cards_fk0")
+    id             Int      @id(map: "cards_pk") @default(autoincrement())
+    userId         Int
+    title          String
+    number         String
+    name           String
+    cvc            Int
+    expirationDate DateTime @db.Date
+    password       String
+    isVirtual      Boolean  @default(false)
+    type           Cardtype @default(creditdebit)
+    createdAt      DateTime @default(now()) @db.Timestamp(6)
+    users          users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cards_fk0")
 }
 
 enum Cardtype {
-  credit
-  debit
-  creditdebit  @map("credit-debit")
+    credit
+    debit
+    creditdebit @map("credit-debit")
 }
 
 model credentials {
-  id        Int      @id(map: "credentials_pk") @default(autoincrement())
-  userId    Int
-  title     String
-  url       String
-  username  String
-  password  String
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_fk0")
+    id        Int      @id(map: "credentials_pk") @default(autoincrement())
+    userId    Int
+    title     String
+    url       String
+    username  String
+    password  String
+    createdAt DateTime @default(now()) @db.Timestamp(6)
+    users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_fk0")
 
-  @@unique([userId, title], name: "userId_title")
-  @@unique([id, userId], name: "id_userId")
+    @@unique([userId, title], name: "userId_title")
+    @@unique([id, userId], name: "id_userId")
 }
 
 model notes {
-  id        Int      @id(map: "notes_pk") @default(autoincrement())
-  userId    Int
-  title     String   @db.VarChar(50)
-  note      String   @db.VarChar(1000)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "notes_fk0")
+    id        Int      @id(map: "notes_pk") @default(autoincrement())
+    userId    Int
+    title     String   @db.VarChar(50)
+    note      String   @db.VarChar(1000)
+    createdAt DateTime @default(now()) @db.Timestamp(6)
+    users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "notes_fk0")
+
+    @@unique([userId, title], name: "userId_title")
+	@@unique([id, userId], name: "id_userId")
 }
 
 model wifis {
-  id        Int      @id(map: "wifis_pk") @default(autoincrement())
-  userId    Int
-  title     String
-  name      String
-  password  String
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wifis_fk0")
+    id        Int      @id(map: "wifis_pk") @default(autoincrement())
+    userId    Int
+    title     String
+    name      String
+    password  String
+    createdAt DateTime @default(now()) @db.Timestamp(6)
+    users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wifis_fk0")
 }
