@@ -9,18 +9,18 @@ export async function Create(req: Request, res: Response){
 	return res.sendStatus(201);
 }
 
-// export async function GetNotesController(req: Request, res: Response){
-// 	const {id} = res.locals.tokenData;
-// 	const notes = await noteService.GetNotes(Number(id));
-// 	return res.status(200).send(notes);
-// }
+export async function GetCards(req: Request, res: Response){
+	const {id} = res.locals.tokenData;
+	const cards = await cardService.GetCards(Number(id));
+	return res.status(200).send(cards);
+}
 
-// export async function GetNoteByIdController(req: Request, res: Response){
-// 	const {id: userId} = res.locals.tokenData;
-// 	const {id} = req.params;
-// 	const note = await noteService.GetNoteById(Number(id), Number(userId));
-// 	return res.status(200).send(note);
-// }
+export async function GetCardById(req: Request, res: Response){
+	const {id: userId} = res.locals.tokenData;
+	const {id} = req.params;
+	const card = await cardService.GetCardById(Number(id), Number(userId));
+	return res.status(200).send(card);
+}
 
 // export async function DeleteNoteByIdController(req: Request, res: Response){
 // 	const {id: userId} = res.locals.tokenData;

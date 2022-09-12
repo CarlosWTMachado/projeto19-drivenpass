@@ -16,23 +16,23 @@ export async function CreateCard(card: CreateCard){
 	return;
 }
 
-// export async function GetNotes(userId: number){
-// 	const notes = await noteRepository.findByUserId(userId);
-// 	if(notes.length === 0) throw {
-// 		type: 'NotFound',
-// 		message: 'user has no notes'
-// 	}
-// 	return notes;
-// }
+export async function GetCards(userId: number){
+	const notes = await cardRepository.findByUserId(userId);
+	if(notes.length === 0) throw {
+		type: 'NotFound',
+		message: 'user has no notes'
+	}
+	return notes;
+}
 
-// export async function GetNoteById(noteId: number, userId: number){
-// 	const note = await noteRepository.findByIdEUserId(noteId, userId);
-// 	if(note === null) throw {
-// 		type: 'NotFound',
-// 		message: 'Note not found'
-// 	}
-// 	return note;
-// }
+export async function GetCardById(cardId: number, userId: number){
+	const note = await cardRepository.findByIdEUserId(cardId, userId);
+	if(note === null) throw {
+		type: 'NotFound',
+		message: 'Note not found'
+	}
+	return note;
+}
 
 // export async function DeleteNoteById(noteId: number, userId: number){
 // 	const note = await noteRepository.findByIdEUserId(noteId, userId);

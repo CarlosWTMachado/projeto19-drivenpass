@@ -13,7 +13,7 @@ export async function findByUserIdETitle(userId: number, title: string) {
 }
 
 export async function findByIdEUserId(id: number, userId: number) {
-	return await prisma.notes.findUnique({
+	return await prisma.cards.findUnique({
 		where: {
 			id_userId: {
 				id,
@@ -30,7 +30,7 @@ export async function create(card: CreateCard){
 }
 
 export async function findByUserId(userId: number) {
-	return await prisma.notes.findMany({
+	return await prisma.cards.findMany({
 		where: {userId}
 	});
 }

@@ -4,11 +4,11 @@ import * as cardController from '../Controllers/cardController';
 import schemaValidate from '../Middlewares/handleSchemasValidation';
 import cardSchema from '../Schemas/cardSchema';
 
-const noteRouter = Router();
+const cardRouter = Router();
 
-noteRouter.post('/create/card', schemaValidate(cardSchema), ValidateToken, cardController.Create);
-// noteRouter.get('/get/notes', ValidateToken, cardController.GetNotesController);
-// noteRouter.get('/get/note/:id', ValidateToken, cardController.GetNoteByIdController);
+cardRouter.post('/create/card', schemaValidate(cardSchema), ValidateToken, cardController.Create);
+cardRouter.get('/user/cards', ValidateToken, cardController.GetCards);
+cardRouter.get('/user/card/:id', ValidateToken, cardController.GetCardById);
 // noteRouter.delete('/note/:id', ValidateToken, cardController.DeleteNoteByIdController);
 
-export default noteRouter;
+export default cardRouter;
