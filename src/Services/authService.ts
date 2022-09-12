@@ -1,5 +1,5 @@
 import * as authRepository from '../Repositories/authRepository';
-import EncryptPassword from '../Utils/encryptPassword';
+import EncryptPassword from '../Utils/encryptPasswordBCRYPT';
 import VerifyPassword from '../Utils/validatePassword';
 import GenerateToken from '../Utils/generateToken';
 

@@ -1,9 +1,8 @@
 import * as credentialRepository from '../Repositories/credentialRepository';
+import EncryptPassword from '../Utils/encryptPasswordCRYPTR';
 
 export async function CreateCredential(
 	userId: number, 
-	userEmail: string, 
-	userPassword: string, 
 	title: string, 
 	url: string, 
 	username: string, 
@@ -14,5 +13,9 @@ export async function CreateCredential(
 		type: 'Conflict',
 		message: 'user alredy have credential with this title'
 	}
+	
+	const encryptedPassword = EncryptPassword(password);
+	await credentialRepository.create({userId, title, url, username, password: encryptedPassword});
+
 	return;
 }
