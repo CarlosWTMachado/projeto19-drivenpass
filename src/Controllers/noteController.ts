@@ -20,3 +20,10 @@ export async function GetNoteByIdController(req: Request, res: Response){
 	const note = await noteService.GetNoteById(Number(id), Number(userId));
 	return res.status(200).send(note);
 }
+
+export async function DeleteNoteByIdController(req: Request, res: Response){
+	const {id: userId} = res.locals.tokenData;
+	const {id} = req.params;
+	const notes = await noteService.DeleteNoteById(Number(id), Number(userId));
+	return res.sendStatus(200);
+}

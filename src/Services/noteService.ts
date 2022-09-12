@@ -32,3 +32,14 @@ export async function GetNoteById(noteId: number, userId: number){
 	}
 	return note;
 }
+
+export async function DeleteNoteById(noteId: number, userId: number){
+	const note = await noteRepository.findByIdEUserId(noteId, userId);
+	if(note === null) throw {
+		type: 'NotFound',
+		message: 'Note not found'
+	}
+
+	await noteRepository.deleteById(noteId);
+	return note;
+}
