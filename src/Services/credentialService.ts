@@ -25,8 +25,20 @@ export async function CreateCredential(
 export async function GetAllCredentials(userId: number){
 	const credentials = await credentialRepository.findByUserId(userId);
 	const decryptedCredentials: credentials[] = credentials.map((credential) => {
-		const decryptPassword = DecryptPassword(credential.password);
-		return {...credential, password: decryptPassword};
+		const decryptedPassword = DecryptPassword(credential.password);
+		return {...credential, password: decryptedPassword};
 	});
 	return decryptedCredentials;
+}
+
+export async function GetCredentialById(credentialId: number, userId: number){
+	const credential = await credentialRepository.findByIdEUserId(credentialId, userId);
+	if(credential === null) throw {
+		type: 'NotFound',
+		message: 'Credential not found'
+	}
+
+	const decryptedPassword = DecryptPassword(credential.password);
+	const decryptedCredential: credentials = {...credential, password: decryptedPassword};
+	return decryptedCredential;
 }

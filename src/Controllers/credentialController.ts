@@ -15,7 +15,8 @@ export async function GetCredentialController(req: Request, res: Response){
 }
 
 export async function GetCredentialByIdController(req: Request, res: Response){
-	const {id} = res.locals.tokenData;
-	const credentials = await credentialService.GetAllCredentials(Number(id));
+	const {id: userId} = res.locals.tokenData;
+	const {id} = req.params;
+	const credentials = await credentialService.GetCredentialById(Number(id), Number(userId));
 	return res.status(200).send(credentials);
 }
