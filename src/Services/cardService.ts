@@ -1,7 +1,7 @@
-import { string } from 'joi';
 import * as cardRepository from '../Repositories/cardRepository';
 import { CreateCard } from '../Types/cardType';
-import encrypter from '../Utils/encryptPasswordCRYPTR';
+import encrypter from '../Utils/encrypterCRYPTR';
+import decrypter from '../Utils/decrypterCRYPTR';
 
 export async function CreateCard(card: CreateCard){
 	const cardFound = await cardRepository.findByUserIdETitle(card.userId, card.title);
@@ -22,7 +22,11 @@ export async function GetCards(userId: number){
 		type: 'NotFound',
 		message: 'user has no cards'
 	}
-	return cards;
+	return cards.map((card) => {
+		const decryptedPassword = decrypter(card.password);
+		const decryptedCVC = decrypter(card.cvc);
+		return {...card, password: decryptedPassword, cvc: decryptedCVC};
+	});
 }
 
 export async function GetCardById(cardId: number, userId: number){
@@ -31,7 +35,9 @@ export async function GetCardById(cardId: number, userId: number){
 		type: 'NotFound',
 		message: 'Card not found'
 	}
-	return card;
+	const decryptedPassword = decrypter(card.password);
+	const decryptedCVC = decrypter(card.cvc);
+	return {...card, password: decryptedPassword, cvc: decryptedCVC};
 }
 
 export async function DeleteById(noteId: number, userId: number){

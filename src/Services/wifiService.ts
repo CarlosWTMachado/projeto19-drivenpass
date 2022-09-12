@@ -1,6 +1,7 @@
 import * as wifiRepository from '../Repositories/wifiRepository';
 import { CreateWifi } from '../Types/wifiType';
-import encrypter from '../Utils/encryptPasswordCRYPTR';
+import encrypter from '../Utils/encrypterCRYPTR';
+import decrypter from '../Utils/decrypterCRYPTR';
 
 export async function Create(wifi: CreateWifi){
 	const wifiFound = await wifiRepository.findByUserIdETitle(wifi.userId, wifi.title);
@@ -20,7 +21,11 @@ export async function GetAll(userId: number){
 		type: 'NotFound',
 		message: 'user has no wifis'
 	}
-	return wifis;
+
+	return wifis.map((wifi) => {
+		const decryptedPassword = decrypter(wifi.password);
+		return {...wifi, password: decryptedPassword};
+	});
 }
 
 export async function GetById(wifiId: number, userId: number){
@@ -29,7 +34,9 @@ export async function GetById(wifiId: number, userId: number){
 		type: 'NotFound',
 		message: 'Wifi not found'
 	}
-	return wifi;
+
+	const decryptedPassword = decrypter(wifi.password);
+	return {...wifi, password: decryptedPassword};
 }
 
 export async function DeleteById(wifiId: number, userId: number){
@@ -38,7 +45,6 @@ export async function DeleteById(wifiId: number, userId: number){
 		type: 'NotFound',
 		message: 'Wifi not found'
 	}
-
 	await wifiRepository.deleteById(wifiId);
 	return wifi;
 }

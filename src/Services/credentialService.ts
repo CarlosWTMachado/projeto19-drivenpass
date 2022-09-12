@@ -1,7 +1,7 @@
 import * as credentialRepository from '../Repositories/credentialRepository';
 import { credentials } from '@prisma/client';
-import EncryptPassword from '../Utils/encryptPasswordCRYPTR';
-import DecryptPassword from '../Utils/decryptPasswordCRYPTR';
+import Encrypter from '../Utils/encrypterCRYPTR';
+import Decrypter from '../Utils/decrypterCRYPTR';
 
 export async function CreateCredential(
 	userId: number, 
@@ -16,7 +16,7 @@ export async function CreateCredential(
 		message: 'user alredy have credential with this title'
 	}
 	
-	const encryptedPassword = EncryptPassword(password);
+	const encryptedPassword = Encrypter(password);
 	await credentialRepository.create({userId, title, url, username, password: encryptedPassword});
 
 	return;
@@ -25,7 +25,7 @@ export async function CreateCredential(
 export async function GetAllCredentials(userId: number){
 	const credentials = await credentialRepository.findByUserId(userId);
 	const decryptedCredentials: credentials[] = credentials.map((credential) => {
-		const decryptedPassword = DecryptPassword(credential.password);
+		const decryptedPassword = Decrypter(credential.password);
 		return {...credential, password: decryptedPassword};
 	});
 	return decryptedCredentials;
@@ -38,7 +38,7 @@ export async function GetCredentialById(credentialId: number, userId: number){
 		message: 'Credential not found'
 	}
 
-	const decryptedPassword = DecryptPassword(credential.password);
+	const decryptedPassword = Decrypter(credential.password);
 	const decryptedCredential: credentials = {...credential, password: decryptedPassword};
 	return decryptedCredential;
 }
