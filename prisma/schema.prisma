@@ -76,4 +76,7 @@ model wifis {
     password  String
     createdAt DateTime @default(now()) @db.Timestamp(6)
     users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wifis_fk0")
+
+	@@unique([userId, title], name: "userId_title")
+	@@unique([id, userId], name: "id_userId")
 }
