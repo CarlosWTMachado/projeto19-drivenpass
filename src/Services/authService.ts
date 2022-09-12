@@ -4,6 +4,12 @@ import VerifyPassword from '../Utils/validatePassword';
 import GenerateToken from '../Utils/generateToken';
 
 export async function SignUpService(email: string, password: string){
+	const user = await authRepository.findByEmail(email);
+	if(user !== null) throw {
+		type: 'Conflict',
+		message: 'email alredy registred'
+	}
+
 	const encryptedPassword: string = EncryptPassword(password);
 	await authRepository.create({email, password: encryptedPassword});
 	return;
