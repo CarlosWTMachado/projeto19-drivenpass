@@ -62,6 +62,7 @@ model notes {
     users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "notes_fk0")
 
     @@unique([userId, title], name: "userId_title")
+	@@unique([id, userId], name: "id_userId")
 }
 
 model wifis {

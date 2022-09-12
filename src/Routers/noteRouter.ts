@@ -2,6 +2,8 @@ import { Router } from 'express';
 import ValidateToken from '../Middlewares/validateToken';
 import {
 	CreateNoteController,
+	GetNotesController,
+	GetNoteByIdController,
 } from '../Controllers/noteController';
 import schemaValidate from '../Middlewares/handleSchemasValidation';
 import noteSchema from '../Schemas/noteSchema';
@@ -9,5 +11,7 @@ import noteSchema from '../Schemas/noteSchema';
 const noteRouter = Router();
 
 noteRouter.post('/create/note', schemaValidate(noteSchema), ValidateToken, CreateNoteController);
+noteRouter.get('/get/notes', ValidateToken, GetNotesController);
+noteRouter.get('/get/note/:id', ValidateToken, GetNoteByIdController);
 
 export default noteRouter;
