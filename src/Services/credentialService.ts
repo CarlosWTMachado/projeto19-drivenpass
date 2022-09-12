@@ -42,3 +42,14 @@ export async function GetCredentialById(credentialId: number, userId: number){
 	const decryptedCredential: credentials = {...credential, password: decryptedPassword};
 	return decryptedCredential;
 }
+
+export async function DeleteCredentialById(credentialId: number, userId: number){
+	const credential = await credentialRepository.findByIdEUserId(credentialId, userId);
+	if(credential === null) throw {
+		type: 'NotFound',
+		message: 'Credential not found'
+	}
+
+	await credentialRepository.deleteById(credentialId);
+	return;
+}
