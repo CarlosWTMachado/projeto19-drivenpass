@@ -1,5 +1,7 @@
 import * as credentialRepository from '../Repositories/credentialRepository';
+import { credentials } from '@prisma/client';
 import EncryptPassword from '../Utils/encryptPasswordCRYPTR';
+import DecryptPassword from '../Utils/decryptPasswordCRYPTR';
 
 export async function CreateCredential(
 	userId: number, 
@@ -18,4 +20,13 @@ export async function CreateCredential(
 	await credentialRepository.create({userId, title, url, username, password: encryptedPassword});
 
 	return;
+}
+
+export async function GetAllCredentials(userId: number){
+	const credentials = await credentialRepository.findByUserId(userId);
+	const decryptedCredentials: credentials[] = credentials.map((credential) => {
+		const decryptPassword = DecryptPassword(credential.password);
+		return {...credential, password: decryptPassword};
+	});
+	return decryptedCredentials;
 }
