@@ -36,7 +36,7 @@ export async function findByUserId(userId: number) {
 }
 
 export async function deleteById(id: number) {
-	return await prisma.notes.delete({
+	return await prisma.cards.delete({
 		where: {id}
 	});
 }

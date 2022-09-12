@@ -22,9 +22,9 @@ export async function GetCardById(req: Request, res: Response){
 	return res.status(200).send(card);
 }
 
-// export async function DeleteNoteByIdController(req: Request, res: Response){
-// 	const {id: userId} = res.locals.tokenData;
-// 	const {id} = req.params;
-// 	const notes = await noteService.DeleteNoteById(Number(id), Number(userId));
-// 	return res.sendStatus(200);
-// }
+export async function DeleteById(req: Request, res: Response){
+	const {id: userId} = res.locals.tokenData;
+	const {id} = req.params;
+	await cardService.DeleteById(Number(id), Number(userId));
+	return res.sendStatus(200);
+}

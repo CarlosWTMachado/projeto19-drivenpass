@@ -9,6 +9,6 @@ const cardRouter = Router();
 cardRouter.post('/create/card', schemaValidate(cardSchema), ValidateToken, cardController.Create);
 cardRouter.get('/user/cards', ValidateToken, cardController.GetCards);
 cardRouter.get('/user/card/:id', ValidateToken, cardController.GetCardById);
-// noteRouter.delete('/note/:id', ValidateToken, cardController.DeleteNoteByIdController);
+cardRouter.delete('/card/:id', ValidateToken, cardController.DeleteById);
 
 export default cardRouter;
